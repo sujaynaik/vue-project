@@ -150,4 +150,6 @@ onMounted(() => {
   <div class="px-6 sm:px-12 md:px-18 lg:px-24 pt-6">
     <RouterView />
   </div>
+
+  <div class="w-full p-4"><small>v1-24/07.2026</small></div>
 </template>
