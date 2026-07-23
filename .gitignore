@@ -4,5 +4,4 @@ node_modules
 .vscode/extensions.json
 .prettierrc.json
 .oxlintrc.json
-package-lock.json
 dist
