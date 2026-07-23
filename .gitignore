@@ -1,0 +1,7 @@
+node_modules
+.editorconfig
+.vscode/settings.json
+.vscode/extensions.json
+.prettierrc.json
+.oxlintrc.json
+package-lock.json
