@@ -2,11 +2,14 @@
 import { Button, OverlayBadge, Popover } from 'primevue'
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+
 import { useThemeStore } from './stores/theme'
 import { useUserStore } from './stores/user'
-import { storeToRefs } from 'pinia'
 import { clearAllStores } from './utils'
 import { userCartStore } from './stores/cart'
+
+const version = import.meta.env.APP_VERSION
 
 const themeStore = useThemeStore()
 const userStore = useUserStore()
@@ -151,5 +154,5 @@ onMounted(() => {
     <RouterView />
   </div>
 
-  <div class="w-full p-4"><small>v1-24/07.2026</small></div>
+  <footer>Version {{ version }}</footer>
 </template>

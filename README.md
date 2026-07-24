@@ -1,5 +1,51 @@
 URL: https://sujaynaik.github.io/vue-project/#/
 
+RELEASE FLOW:
+When you push code to main, this is what happens:
+
+Developer
+│
+├── git commit
+│ feat: add login page
+│
+├── git push
+│
+GitHub Actions
+│
+├── Install dependencies
+├── Run tests
+├── Build Vue app
+├── semantic-release starts
+│
+├── Read previous Git tag
+├── Analyze commits
+├── Decide next version
+├── Generate release notes
+├── Update CHANGELOG
+├── Create Git tag
+├── Create GitHub Release
+└── Commit release files
+
+Then your GitHub Pages deployment workflow builds the latest version and publishes it.
+
+semantic-release implemented: Commit message decides the version vX.Y.Z (X: Major, Y: Minor, Z: Patch)
+
+Example-
+feat!: 'Message'
+
+| Commit          | Release |
+| --------------- | ------- |
+| fix             | Patch   |
+| feat            | Minor   |
+| feat!           | Major   |
+| BREAKING CHANGE | Major   |
+| docs            | None    |
+| style           | None    |
+| refactor        | None    |
+| chore           | None    |
+| ci              | None    |
+| test            | None    |
+
 # vue-project
 
 This template should help get you started developing with Vue 3 in Vite.
