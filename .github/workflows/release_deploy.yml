@@ -82,6 +82,7 @@ jobs:
 
       - name: Build Vue application
         run: npm run build
+        env: VITE_APP_VERSION: ${{ github.ref_name }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
