@@ -154,5 +154,5 @@ onMounted(() => {
     <RouterView />
   </div>
 
-  <footer>Version {{ version }}</footer>
+  <footer class="w-full flex items-center">Version {{ version }}</footer>
 </template>
