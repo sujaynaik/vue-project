@@ -5,66 +5,89 @@ on:
     branches:
       - main
 
+# Minimal default permissions
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-  issues: write
-  pull-requests: write
+  contents: read
+
+concurrency:
+  group: release-deploy
+  cancel-in-progress: false
 
 jobs:
   release:
+    name: Semantic Release
     runs-on: ubuntu-latest
 
-    outputs:
-      released: ${{ steps.release.outputs.new_release_published }}
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm test --if-present
+      - name: Run tests
+        run: npm test --if-present
 
-      - id: release
+      - name: Run semantic-release
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
+    name: Deploy GitHub Pages
     needs: release
 
     runs-on: ubuntu-latest
 
     permissions:
+      contents: read
       pages: write
       id-token: write
-      contents: read
 
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/checkout@v4
+      # semantic-release creates a new commit:
+      # chore(release): x.x.x
+      # This ensures we build with the updated package.json version.
+      - name: Checkout latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm run build
+      - name: Build Vue application
+        run: npm run build
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: dist
+          path: ./dist
 
-      - uses: actions/deploy-pages@v4
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
