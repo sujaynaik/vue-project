@@ -9,7 +9,8 @@ import { useUserStore } from './stores/user'
 import { clearAllStores } from './utils'
 import { userCartStore } from './stores/cart'
 
-const version = import.meta.env.APP_VERSION
+// const version = import.meta.env.APP_VERSION
+const version = import.meta.env.VITE_APP_VERSION
 
 const themeStore = useThemeStore()
 const userStore = useUserStore()
